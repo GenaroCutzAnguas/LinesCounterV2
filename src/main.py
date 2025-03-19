@@ -19,7 +19,7 @@ def main():
 
         print(
             LinesCountReport(
-                project_name, project_logical_lines_count, project_physical_lines_count
+                project_name, project_logical_lines_count[0], project_physical_lines_count
             )
         )
     except Exception as error:
