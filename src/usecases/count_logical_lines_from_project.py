@@ -11,27 +11,20 @@ from ..helpers.remove_all_comments_from_content_lines import (
 )
 
 
-def count_logical_lines_from_project(project_path: str) -> int:
+def count_logical_lines_from_project(project_path: str) -> tuple[int, dict]:
     python_file_paths_in_project = get_all_python_file_paths_from_directory(
         project_path
     )
 
     project_logical_lines_count = 0
+    files_logical_lines_count = {}
 
     for file_path in python_file_paths_in_project:
-        lines_with_visible_content = get_lines_with_visible_content_from_file(file_path)
 
-        lines_without_comments = remove_all_comments_from_content_lines(
-            lines_with_visible_content
-        )
+        files_logical_lines_count[file_path] = _count_logical_lines_from_file(file_path)
+        project_logical_lines_count += files_logical_lines_count[file_path]
 
-        logical_lines_count_in_file = len(
-            _extract_logical_lines(lines_without_comments)
-        )
-
-        project_logical_lines_count += logical_lines_count_in_file
-
-    return project_logical_lines_count
+    return project_logical_lines_count, files_logical_lines_count
 
 
 def _extract_logical_lines(content_lines: list[str]) -> list[str]:
@@ -61,3 +54,16 @@ def _is_logical_line(line: str) -> bool:
             return True
 
     return False
+
+def _count_logical_lines_from_file(file_path: str) -> int:
+        lines_with_visible_content = get_lines_with_visible_content_from_file(file_path)
+
+        lines_without_comments = remove_all_comments_from_content_lines(
+            lines_with_visible_content
+        )
+
+        logical_lines_count_in_file = len(
+            _extract_logical_lines(lines_without_comments)
+        )
+
+        return logical_lines_count_in_file

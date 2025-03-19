@@ -45,21 +45,21 @@ class CountLogicalLinesFromProjectTests(TestCase):
             "tests/assets/empty_dir"
         )
 
-        self.assertEqual(project_logical_lines_count, 0)
+        self.assertEqual(project_logical_lines_count[0], 0)
 
     def test_that_a_project_with_only_comments_should_return_zero(self):
         project_logical_lines_count = count_logical_lines_from_project(
             "tests/assets/empty_python_project"
         )
 
-        self.assertEqual(project_logical_lines_count, 0)
+        self.assertEqual(project_logical_lines_count[0], 0)
 
     def test_that_a_project_with_only_code_should_count_the_logical_lines(self):
         project_logical_lines_count = count_logical_lines_from_project(
             "tests/assets/only_code_python_project"
         )
 
-        self.assertEqual(project_logical_lines_count, 19)
+        self.assertEqual(project_logical_lines_count[0], 19)
 
     def test_that_a_project_with_code_and_comments_should_count_the_logical_lines(
         self,
@@ -68,4 +68,4 @@ class CountLogicalLinesFromProjectTests(TestCase):
             "tests/assets/documented_python_project"
         )
 
-        self.assertEqual(project_logical_lines_count, 19)
+        self.assertEqual(project_logical_lines_count[0], 19)
