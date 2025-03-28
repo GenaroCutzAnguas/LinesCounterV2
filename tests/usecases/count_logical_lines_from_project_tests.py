@@ -1,4 +1,5 @@
 from unittest import TestCase
+import os
 
 from src.usecases.count_logical_lines_from_project import (
     count_logical_lines_from_project,
@@ -53,6 +54,38 @@ class CountLogicalLinesFromProjectTests(TestCase):
         )
 
         self.assertEqual(project_logical_lines_count[0], 0)
+
+    def test_that_a_project_with_only_code_should_count_the_logical_lines_per_file(
+        self,
+    ):
+        total, files_logical_lines_count = count_logical_lines_from_project(
+            "tests/assets/only_code_python_project"
+        )
+
+        file_names = {
+            os.path.basename(file_path): line_count
+            for file_path, line_count in files_logical_lines_count.items()
+        }
+
+        self.assertEqual(file_names["fruit.py"], 2)
+        self.assertEqual(file_names["fruit_repository.py"], 6)
+        self.assertEqual(file_names["in_memory_fruit_repository.py"], 11)
+
+    def test_that_a_project_with_code_and_comments_should_count_the_logical_lines_per_file(
+        self,
+    ):
+        total, files_logical_lines_count = count_logical_lines_from_project(
+            "tests/assets/documented_python_project"
+        )
+
+        file_names = {
+            os.path.basename(file_path): line_count
+            for file_path, line_count in files_logical_lines_count.items()
+        }
+
+        self.assertEqual(file_names["fruit.py"], 2)
+        self.assertEqual(file_names["fruit_repository.py"], 6)
+        self.assertEqual(file_names["in_memory_fruit_repository.py"], 11)
 
     def test_that_a_project_with_only_code_should_count_the_logical_lines(self):
         project_logical_lines_count = count_logical_lines_from_project(
