@@ -1,8 +1,5 @@
 from .models.lines_count_report import LinesCountReport
 
-from .usecases.count_logical_lines_from_project import (
-    count_logical_lines_from_project,
-)
 from .usecases.count_physical_lines_from_project import (
     count_physical_lines_from_project,
 )
@@ -17,14 +14,13 @@ def main():
     project_path = input("Please enter the project path: ")
 
     try:
-        project_logical_lines_count, files_logical_lines_count = count_logical_lines_from_project(project_path)
         project_physical_lines_count, files_physical_lines_count = count_physical_lines_from_project(project_path)
         project_methods_count_list = count_methods_from_project(project_path)
 
         print(
             LinesCountReport(
-                project_name, project_logical_lines_count, project_physical_lines_count, 
-                files_logical_lines_count, files_physical_lines_count, project_methods_count_list
+                project_name, project_physical_lines_count, 
+                files_physical_lines_count, project_methods_count_list
             )
         )
     except Exception as error:
