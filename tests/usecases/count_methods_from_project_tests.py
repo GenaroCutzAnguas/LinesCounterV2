@@ -8,27 +8,27 @@ from src.usecases.count_methods_from_project import (
 
 class ExtractMethodsAndClasses(TestCase):
     def test_that_empty_lines_should_return_empty_list_of_physical_lines(self):
-        result = _extract_methods_and_classes([])
-        self.assertEqual(result, {})
+        file_class_methods = _extract_methods_and_classes([])
+        self.assertEqual(file_class_methods, {})
 
     def test_that_a_string_with_a_single_class_without_methods_return_zero(self):
-        content = ["class MyClass:"]
-        result = _extract_methods_and_classes(content)
-        self.assertEqual(result, {"MyClass": 0})
+        content_of_file = ["class MyClass:"]
+        file_class_methods = _extract_methods_and_classes(content_of_file)
+        self.assertEqual(file_class_methods, {"MyClass": 0})
 
     def test_that_a_string_with_a_single_class_return_correct_method_count(self):
-        content = [
+        content_of_file = [
             "class MyClass:",
             "    def method1(self):",
             "        pass",
             "    def method2(self):",
             "        pass",
         ]
-        result = _extract_methods_and_classes(content)
-        self.assertEqual(result, {"MyClass": 2})
+        file_class_methods = _extract_methods_and_classes(content_of_file)
+        self.assertEqual(file_class_methods, {"MyClass": 2})
 
     def test_that_a_string_with_multiple_classes_return_correct_method_count(self):
-        content = [
+        content_of_file = [
             "class ClassA:",
             "    def method1(self):",
             "        pass",
@@ -39,8 +39,8 @@ class ExtractMethodsAndClasses(TestCase):
             "    def method3(self):",
             "        pass",
         ]
-        result = _extract_methods_and_classes(content)
-        self.assertEqual(result, {"ClassA": 1, "ClassB": 2})
+        file_class_methods = _extract_methods_and_classes(content_of_file)
+        self.assertEqual(file_class_methods, {"ClassA": 1, "ClassB": 2})
 
 
 class CountMethodsFromProyectTests(TestCase):
@@ -85,8 +85,8 @@ class CountMethodsFromProyectTests(TestCase):
             self.fail("InMemoryFruitRepository class not founded")
 
     def test_that_a_file_with_no_classes_should_return_no_classes_found(self):
-        result = count_methods_from_project("tests/assets/empty_python_project")
+        project_method_count = count_methods_from_project("tests/assets/empty_python_project")
 
-        for file_data in result.values():
+        for file_data in project_method_count.values():
             self.assertIn("No classes found", file_data)
             self.assertEqual(file_data["No classes found"], 0)
