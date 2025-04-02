@@ -32,17 +32,17 @@ class LinesCountReport:
     
 
     def _file_metrics_count_to_string(self)-> str:    
-        resultado = []
+        file_metrics = []
         for file_name, (methods, physical_lines) in self._process_file_metrics_count().items():
-            resultado.append(f"File Name: {file_name}")
+            file_metrics.append(f"File Name: {file_name}")
             for class_name, (method_count) in methods.items():
                 #For structured programming files
                 if (class_name == "No classes found"):
-                    resultado.append(f"Number of functions: {method_count}")
+                    file_metrics.append(f"Number of functions: {method_count}")
                 else:
-                    resultado.append(f"Class: {class_name}")
-                    resultado.append(f"\tNumber of methods: {method_count}")
+                    file_metrics.append(f"Class: {class_name}")
+                    file_metrics.append(f"\tNumber of methods: {method_count}")
 
-            resultado.append(f"Physical lines: {physical_lines}")
-            resultado.append("-" * 20)  
-        return "\n".join(resultado)  
+            file_metrics.append(f"Physical lines: {physical_lines}")
+            file_metrics.append("-" * 20)  
+        return "\n".join(file_metrics)  
